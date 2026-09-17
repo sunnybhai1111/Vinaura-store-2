@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="te">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vinaura | Royal Handcrafted Couture</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #070c0e;
+      --card-bg: #0f181b;
+      --surface: #152226;
+      --gold: #d4af37;
+      --gold-light: #f5e7ba;
+      --text: #f0f4f5;
+      --text-muted: #8b9ea3;
+      --border: #1e3036;
+      --radius: 12px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Montserrat', sans-serif; -webkit-tap-highlight-color: transparent; }
+    body { background: var(--bg); color: var(--text); padding-bottom: 90px; }
+
+    /* Small Sleek Ticker */
+    .ticker-bar { width: 100%; overflow: hidden; background: #04080a; border-bottom: 1px solid rgba(212,175,55,0.2); color: var(--gold-light); font-size: 8.5px; font-weight: 600; letter-spacing: 1.2px; padding: 5px 0; text-transform: uppercase; }
+    .ticker-track { display: inline-flex; white-space: nowrap; animation: tickerGlide 26s linear infinite; gap: 40px; }
+    @keyframes tickerGlide { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+    /* Header */
+    header { background: rgba(9,15,18,0.95); backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; border-bottom: 1px solid var(--border); padding: 10px 16px; display: flex; flex-direction: column; gap: 8px; }
+    .nav-head { display: flex; justify-content: space-between; align-items: center; }
+    .brand-logo { font-family: 'Cinzel', serif; font-size: 22px; font-weight: 800; letter-spacing: 3px; background: linear-gradient(135deg, #ffffff, var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; cursor: pointer; user-select: none; }
+    .bag-pill { background: linear-gradient(135deg, var(--gold), #a9801e); color: #000; border: none; padding: 6px 14px; border-radius: 30px; font-size: 11px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+
+    /* Search Bar */
+    .search-wrap { position: relative; width: 100%; }
+    .search-wrap input { width: 100%; background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 8px 14px 8px 36px; font-size: 11px; color: #fff; outline: none; }
+    .search-wrap input:focus { border-color: var(--gold); }
+    .search-wrap svg { position: absolute; left: 12px; top: 9px; width: 13px; height: 13px; fill: var(--text-muted); }
+
+    /* Carousel */
+    .ad-carousel { width: 100%; overflow: hidden; position: relative; background: #000; }
+    .carousel-track { display: flex; transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1); width: 100%; }
+    .ad-card { min-width: 100%; height: 180px; position: relative; }
+    .ad-card img { width: 100%; height: 100%; object-fit: cover; opacity: 0.85; }
+    .ad-content { position: absolute; inset: 0; background: linear-gradient(to top, rgba(7,12,14,0.95), transparent 70%); display: flex; flex-direction: column; justify-content: flex-end; padding: 14px; }
+    .ad-content h3 { font-family: 'Cinzel', serif; font-size: 16px; color: var(--gold-light); }
+    .ad-content p { font-size: 10px; color: #d0d8da; margin-top: 2px; }
+
+    /* Categories */
+    .cat-bar { display: flex; gap: 8px; padding: 10px 16px; overflow-x: auto; scrollbar-width: none; background: var(--bg); border-bottom: 1px solid var(--border); }
+    .cat-bar::-webkit-scrollbar { display: none; }
+    .cat-btn { background: var(--surface); border: 1px solid var(--border); padding: 6px 14px; border-radius: 20px; font-size: 11px; font-weight: 600; cursor: pointer; white-space: nowrap; color: var(--text-muted); }
+    .cat-btn.active { background: var(--gold); color: #000; border-color: var(--gold); font-weight: 700; }
+
+    /* Grid */
+    .catalog-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 12px; }
+    .product-box { background: var(--card-bg); border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); display: flex; flex-direction: column; cursor: pointer; }
+    .prod-visual { position: relative; width: 100%; height: 210px; background: #000; overflow: hidden; }
+    .prod-visual img { width: 100%; height: 100%; object-fit: cover; }
+    .stock-tag { position: absolute; top: 6px; left: 6px; font-size: 8px; font-weight: 700; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; }
+    .stock-tag.in { background: rgba(30, 70, 32, 0.9); color: #81c784; border: 1px solid #388e3c; }
+    .stock-tag.out { background: rgba(90, 20, 20, 0.9); color: #ef9a9a; border: 1px solid #d32f2f; }
+    
+    .prod-details { padding: 8px 10px; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between; }
+    .prod-title { font-size: 11.5px; font-weight: 600; line-height: 1.3; margin-bottom: 4px; color: #f0f4f5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .prod-sizes-preview { font-size: 9.5px; color: var(--gold); margin-bottom: 6px; }
+    .price-row { display: flex; align-items: baseline; gap: 6px; margin-bottom: 8px; }
+    .price-now { font-size: 14px; font-weight: 700; color: var(--gold-light); }
+    .price-mrp { font-size: 10px; text-decoration: line-through; color: var(--text-muted); }
+    .add-bag-btn { background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 7px; border-radius: 6px; font-size: 10px; font-weight: 700; cursor: pointer; width: 100%; text-transform: uppercase; }
+
+    /* Mid Banner */
+    .mid-ad-box { margin: 8px 12px 14px; border-radius: var(--radius); overflow: hidden; position: relative; height: 120px; border: 1px solid var(--border); }
+    .mid-ad-box img { width: 100%; height: 100%; object-fit: cover; }
+    .mid-ad-layer { position: absolute; inset: 0; background: rgba(7,12,14,0.85); display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 10px; }
+    .mid-ad-layer h4 { font-family: 'Cinzel', serif; font-size: 15px; color: var(--gold); }
+
+    /* Footer */
+    footer { background: #040708; border-top: 1px solid var(--border); text-align: center; padding: 30px 16px 80px; }
+    .social-icons { display: flex; justify-content: center; gap: 10px; margin: 16px 0; }
+    .social-link { width: 36px; height: 36px; border-radius: 50%; background: var(--surface); border: 1px solid var(--border); display: flex; justify-content: center; align-items: center; text-decoration: none; color: var(--gold); font-size: 11px; font-weight: 700; }
+    .wa-float { position: fixed; bottom: 18px; right: 18px; background: #25d366; color: #fff; width: 50px; height: 50px; border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 6px 20px rgba(37,211,102,0.4); z-index: 999; text-decoration: none; font-size: 22px; }
+
+    /* Modals */
+    .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 1000; display: none; align-items: flex-end; justify-content: center; backdrop-filter: blur(8px); }
+    .modal.active { display: flex; }
+    .modal-sheet { background: var(--card-bg); border: 1px solid var(--border); width: 100%; max-width: 500px; max-height: 92vh; border-radius: 20px 20px 0 0; overflow-y: auto; padding: 18px 16px 30px; position: relative; }
+    .modal-close { position: absolute; top: 14px; right: 16px; background: var(--surface); border: 1px solid var(--border); color: #fff; width: 30px; height: 30px; border-radius: 50%; font-size: 15px; cursor: pointer; }
+    
+    .media-swipe-container { display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 10px; scrollbar-width: none; }
+    .media-swipe-container::-webkit-scrollbar { display: none; }
+    .media-frame { min-width: 88%; height: 320px; scroll-snap-align: center; border-radius: 10px; overflow: hidden; background: #000; }
+    .media-frame img, .media-frame video { width: 100%; height: 100%; object-fit: cover; }
+
+    .size-select-wrap { margin: 14px 0 8px; }
+    .size-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+    .size-header label { font-size: 11px; font-weight: 700; color: var(--gold-light); text-transform: uppercase; }
+    .size-chart-link { font-size: 10px; color: var(--gold); text-decoration: underline; cursor: pointer; }
+    .size-options { display: flex; flex-wrap: wrap; gap: 6px; }
+    .size-bubble { min-width: 40px; height: 36px; border-radius: 6px; border: 1px solid var(--border); background: var(--surface); color: #fff; font-size: 11px; font-weight: 700; display: flex; justify-content: center; align-items: center; cursor: pointer; padding: 0 8px; }
+    .size-bubble.selected { border-color: var(--gold); background: var(--gold); color: #000; }
+
+    .chart-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 1200; display: none; justify-content: center; align-items: center; padding: 20px; }
+    .chart-modal.active { display: flex; }
+    .chart-box { background: var(--card-bg); border: 1px solid var(--gold); border-radius: 10px; padding: 18px; max-width: 380px; width: 100%; }
+    .chart-table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 11px; }
+    .chart-table th, .chart-table td { border: 1px solid var(--border); padding: 6px; text-align: center; }
+    .chart-table th { background: var(--surface); color: var(--gold); }
+
+    /* Cart */
+    .cart-drawer { position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 1100; display: none; justify-content: flex-end; }
+    .cart-drawer.active { display: flex; }
+    .cart-box { background: var(--card-bg); width: 100%; max-width: 420px; height: 100%; display: flex; flex-direction: column; padding: 16px; border-left: 1px solid var(--border); overflow-y: auto; }
+    .cart-items { margin: 10px 0; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+    .cart-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px dashed var(--border); }
+    .checkout-field { width: 100%; padding: 8px; margin: 4px 0 8px; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; color: #fff; font-size: 11px; }
+    .upi-checkout-btn { background: linear-gradient(135deg, #1b8e3b, #13692b); color: #fff; border: none; padding: 12px; border-radius: 8px; font-size: 12px; font-weight: 700; width: 100%; cursor: pointer; text-transform: uppercase; margin-top: 6px; }
+    .wa-order-btn { background: #25d366; color: #000; border: none; padding: 12px; border-radius: 8px; font-size: 12px; font-weight: 800; width: 100%; cursor: pointer; text-transform: uppercase; margin-top: 6px; display: flex; justify-content: center; align-items: center; gap: 6px; }
+
+    /* Admin */
+    #admin-sec { display: none; position: fixed; inset: 0; background: #070c0e; color: #fff; z-index: 3000; padding: 16px; overflow-y: auto; }
+    .admin-card { background: #0f181b; border: 1px solid var(--border); border-radius: 8px; padding: 14px; margin-bottom: 16px; }
+    .admin-input { width: 100%; padding: 8px; margin: 5px 0 10px; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; color: #fff; font-size: 12px; }
+    .adm-btn { background: var(--gold); color: #000; border: none; padding: 9px 14px; border-radius: 6px; cursor: pointer; font-weight: 700; width: 100%; font-size: 12px; }
+  </style>
+</head>
+<body>
+
+  <div class="ticker-bar">
+    <div class="ticker-track" id="ticker-text"></div>
+  </div>
+
+  <header>
+    <div class="nav-head">
+      <div class="brand-logo" id="brandLogo" onclick="handleLogoClick()">VINAURA</div>
+      <button class="bag-pill" onclick="openCart()">🛍️ BAG (<span id="cart-count">0</span>)</button>
+    </div>
+    <div class="search-wrap">
+      <svg viewBox="0 0 24 24"><path d="M10 2a8 8 0 105.3 14l5.4 5.4 1.4-1.4-5.4-5.4A8 8 0 0010 2zm0 2a6 6 0 110 12 6 6 0 010-12z"/></svg>
+      <input type="text" id="searchInput" placeholder="Search kurtas, sarees, kids wear..." onkeyup="filterCatalog()">
+    </div>
+  </header>
+
+  <div class="ad-carousel">
+    <div class="carousel-track" id="carouselTrack"></div>
+  </div>
+
+  <div class="cat-bar">
+    <button class="cat-btn active" onclick="setCategory('all', this)">All Masterpieces</button>
+    <button class="cat-btn" onclick="setCategory('kids', this)">Kids Wear</button>
+    <button class="cat-btn" onclick="setCategory('sarees', this)">Handloom Sarees</button>
+    <button class="cat-btn" onclick="setCategory('kurtas', this)">Kurtas & Sets</button>
+  </div>
+
+  <div class="catalog-grid" id="catalog-container"></div>
+
+  <div class="mid-ad-box" id="midAdBox"></div>
+
+  <footer id="storeFooter">
+    <h4 id="ftrHeading" style="font-family:'Cinzel',serif; color:var(--gold); font-size:15px;"></h4>
+    <p id="ftrSub" style="font-size:11px; color:var(--text-muted); margin-top:4px; max-width:380px; margin-inline:auto;"></p>
+    
+    <div class="social-icons">
+      <a id="link-wa" href="#" target="_blank" class="social-link">WA</a>
+      <a id="link-ig" href="#" target="_blank" class="social-link">IG</a>
+      <a id="link-fb" href="#" target="_blank" class="social-link">FB</a>
+      <a id="link-tg" href="#" target="_blank" class="social-link">TG</a>
+      <a id="link-mail" href="#" class="social-link">✉</a>
+    </div>
+    <div style="font-size:9px; color:#556b70; letter-spacing:1px;">© VINAURA COUTURE. ALL RIGHTS RESERVED.</div>
+  </footer>
+
+  <a id="float-wa-btn" href="#" target="_blank" class="wa-float">💬</a>
+
+  <!-- Product Modal -->
+  <div class="modal" id="productModal">
+    <div class="modal-sheet">
+      <button class="modal-close" onclick="closeModal('productModal')">✕</button>
+      <div class="media-swipe-container" id="modalMediaTrack"></div>
+      <div style="font-size:10px; color:var(--gold); text-align:center; margin-top:4px;">👉 Swipe pictures & video</div>
+      <h2 id="modalTitle" style="font-size:16px; margin:10px 0 4px; color:#fff;"></h2>
+      <div class="price-row">
+        <span class="price-now" id="modalPrice" style="font-size:18px;"></span>
+      </div>
+
+      <div class="size-select-wrap">
+        <div class="size-header">
+          <label>Select Size:</label>
+          <span class="size-chart-link" onclick="openSizeChart()">📏 Size Chart</span>
+        </div>
+        <div class="size-options" id="modalSizeOptions"></div>
+      </div>
+
+      <p id="modalDesc" style="font-size:12px; color:var(--text-muted); line-height:1.4; margin: 12px 0 16px;"></p>
+      <button class="adm-btn" id="modalAddBtn">Add to Shopping Bag</button>
+    </div>
+  </div>
+
+  <!-- Size Chart Modal -->
+  <div class="chart-modal" id="sizeChartModal">
+    <div class="chart-box">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h3 style="color:var(--gold); font-size:14px;">Garment Measurements (Inches)</h3>
+        <button onclick="closeModal('sizeChartModal')" style="background:none; border:none; color:#fff; font-size:15px; cursor:pointer;">✕</button>
+      </div>
+      <table class="chart-table">
+        <thead>
+          <tr><th>Size</th><th>Chest/Bust</th><th>Waist</th><th>Length</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>XS / Kids</td><td>34" / 20"</td><td>28" / 18"</td><td>24" / 16"</td></tr>
+          <tr><td>S</td><td>36"</td><td>30"</td><td>40"</td></tr>
+          <tr><td>M</td><td>38"</td><td>32"</td><td>42"</td></tr>
+          <tr><td>L</td><td>40"</td><td>34"</td><td>44"</td></tr>
+          <tr><td>XL</td><td>42"</td><td>36"</td><td>45"</td></tr>
+          <tr><td>XXL</td><td>44"</td><td>38"</td><td>46"</td></tr>
+          <tr><td>Saree</td><td>Free Size</td><td>Free Size</td><td>5.5m</td></tr>
+        </tbody>
+      </table>
+      <button class="adm-btn" onclick="closeModal('sizeChartModal')">Close</button>
+    </div>
+  </div>
+
+  <!-- Cart Drawer -->
+  <div class="cart-drawer" id="cartDrawer">
+    <div class="cart-box">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:8px;">
+        <h3 style="font-size:15px; color:var(--gold);">Shopping Bag</h3>
+        <button onclick="closeModal('cartDrawer')" style="background:var(--surface); border:1px solid var(--border); color:#fff; padding:3px 8px; border-radius:12px; cursor:pointer; font-size:11px;">Close</button>
+      </div>
+      
+      <div class="cart-items" id="cartItemList"></div>
+
+      <h4 style="font-size:11px; color:var(--gold-light); margin:8px 0 4px; text-transform:uppercase;">Delivery Address (Courier)</h4>
+      <input type="text" id="cust-name" placeholder="Customer Full Name" class="checkout-field">
+      <input type="tel" id="cust-phone" placeholder="WhatsApp / Mobile Number" class="checkout-field">
+      <textarea id="cust-address" placeholder="Complete Door Address with Pincode" class="checkout-field" rows="2"></textarea>
+
+      <div style="border-top:1px solid var(--border); padding-top:8px;">
+        <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--text-muted); margin-bottom:4px;">
+          <span>Express Courier</span>
+          <span style="color:#81c784; font-weight:700;">FREE</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; font-size:14px; font-weight:700; color:#fff; margin-bottom:8px;">
+          <span>Total</span>
+          <span id="cartTotalSum">₹0</span>
+        </div>
+        
+        <button class="upi-checkout-btn" onclick="executeUPI()">1. Pay via UPI (GPay/PhonePe)</button>
+        <button class="wa-order-btn" onclick="sendOrderToWhatsApp()">2. Forward Address to WhatsApp</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin Panel -->
+  <div id="admin-sec">
+    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid var(--gold); padding-bottom:10px; margin-bottom:14px;">
+      <h2 style="font-family:'Cinzel',serif; color:var(--gold); font-size:18px;">Vinaura Master Studio</h2>
+      <button onclick="exitAdmin()" style="padding:5px 12px; background:#b71c1c; color:#fff; border:none; border-radius:4px; font-weight:700; font-size:11px;">Exit</button>
+    </div>
+
+    <!-- Store Settings -->
+    <div class="admin-card">
+      <h3 style="color:var(--gold-light); margin-bottom:8px; font-size:13px;">1. Store Policies & Ticker</h3>
+      <label style="font-size:10px;">Top Ticker Text:</label>
+      <input type="text" id="adm-ticker" class="admin-input">
+
+      <label style="font-size:10px;">UPI ID for Checkout:</label>
+      <input type="text" id="adm-upi" class="admin-input">
+
+      <label style="font-size:10px;">Footer Notice:</label>
+      <input type="text" id="adm-ftr" class="admin-input">
+
+      <button class="adm-btn" onclick="saveStoreConfig()">Save Settings</button>
+    </div>
+
+    <!-- Socials -->
+    <div class="admin-card">
+      <h3 style="color:var(--gold-light); margin-bottom:8px; font-size:13px;">2. Social & WhatsApp Contacts</h3>
+      <label style="font-size:10px;">WhatsApp Number (91...):</label>
+      <input type="text" id="adm-wa" class="admin-input">
+
+      <label style="font-size:10px;">Instagram URL:</label>
+      <input type="text" id="adm-ig" class="admin-input">
+
+      <label style="font-size:10px;">Facebook URL:</label>
+      <input type="text" id="adm-fb" class="admin-input">
+
+      <label style="font-size:10px;">Telegram URL:</label>
+      <input type="text" id="adm-tg" class="admin-input">
+
+      <label style="font-size:10px;">Email (Gmail):</label>
+      <input type="text" id="adm-mail" class="admin-input">
+
+      <button class="adm-btn" onclick="saveSocialLinks()">Save Socials</button>
+    </div>
+
+    <!-- Add/Edit Product with Sizes -->
+    <div class="admin-card">
+      <h3 style="color:var(--gold-light); margin-bottom:8px; font-size:13px;" id="prod-form-heading">3. Add New Garment & Sizes</h3>
+      <input type="hidden" id="edit-prod-id" value="">
+      <input type="text" id="p-name" placeholder="Product Title" class="admin-input">
+      <input type="number" id="p-cost" placeholder="Price (₹)" class="admin-input">
+      <select id="p-cat" class="admin-input">
+        <option value="kids">Kids Wear</option>
+        <option value="sarees">Handloom Sarees</option>
+        <option value="kurtas">Kurtas & Sets</option>
+      </select>
+
+      <label style="font-size:10px;">Garment Sizes (e.g. S, M, L, XL or Free Size or 0-6M, 1-2Y):</label>
+      <input type="text" id="p-sizes" placeholder="S, M, L, XL" class="admin-input">
+
+      <label style="font-size:10px;">Upload Photos from Phone:</label>
+      <input type="file" id="p-photos" accept="image/*" class="admin-input" multiple>
+
+      <label style="font-size:10px;">Optional Video:</label>
+      <input type="file" id="p-video" accept="video/*" class="admin-input">
+
+      <button class="adm-btn" id="prod-save-btn" onclick="handleProductSubmit()">Publish Product</button>
+      <button id="cancel-edit-btn" onclick="resetProdForm()" style="display:none; background:#444; color:#fff; border:none; padding:7px; border-radius:6px; width:100%; margin-top:6px; font-size:11px;">Cancel</button>
+    </div>
+
+    <!-- Catalog Management -->
+    <div class="admin-card">
+      <h3 style="color:var(--gold-light); margin-bottom:8px; font-size:13px;">4. Catalog (Edit / Delete / Sizes)</h3>
+      <div id="admin-catalog-list"></div>
+    </div>
+  </div>
+
+  <script>
+    const CONFIG_KEY = 'vinaura_cfg_v7_final';
+    const PRODS_KEY = 'vinaura_prods_v7_final';
+
+    const initialConfig = {
+      ticker: "✨ 100% AUTHENTIC LUXURY HANDLOOM | 🚚 FREE ALL-INDIA EXPRESS DELIVERY | 💳 STRICTLY PREPAID (NO CASH ON DELIVERY) | 🔒 INSTANT UPI CHECKOUT",
+      upiId: "vinaura@okhdfcbank",
+      footerHeading: "Vinaura Artisanal Couture",
+      footerSub: "Each garment is handwoven with traditional heritage techniques. No mass factory processing.",
+      whatsapp: "919876543210",
+      instagram: "https://instagram.com",
+      facebook: "https://facebook.com",
+      telegram: "https://t.me",
+      email: "vinaura.luxury@gmail.com",
+      ads: [
+        { title: "Pure Mulberry Silk Sarees", subtitle: "Woven by 3rd Gen Master Craftsmen", img: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=800&auto=format&fit=crop" },
+        { title: "Breathable Organic Cotton Kids", subtitle: "Softest natural weaves for delicate skin", img: "https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?w=800&auto=format&fit=crop" },
+        { title: "Artisanal Royal Kurtas", subtitle: "Intricate hand embroidery & royal silhouettes", img: "https://images.unsplash.com/photo-1596783074918-c84cb06531ca?w=800&auto=format&fit=crop" }
+      ],
+      midAd: {
+        title: "TIMELESS HERITAGE CRAFT",
+        sub: "Support independent traditional Indian handloom weavers with every purchase.",
+        img: "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=800&auto=format&fit=crop"
+      }
+    };
+
+    const sampleCatalog = [
+      { id: 1, title: "Royal Crimson Zari Handloom Saree", category: "sarees", price: 2499, sizes: ["Free Size (5.5m)"], inStock: true, images: ["https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=700&auto=format&fit=crop", "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=700&auto=format&fit=crop"], video: "https://assets.mixkit.co/videos/preview/mixkit-traditional-indian-wedding-jewelry-and-decor-43555-large.mp4" },
+      { id: 2, title: "Pure Organic Cotton Kids Jabla Set", category: "kids", price: 499, sizes: ["0-6M", "6-12M", "1-2Y"], inStock: true, images: ["https://images.unsplash.com/photo-1519689680058-324335c77eba?w=700&auto=format&fit=crop", "https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?w=700&auto=format&fit=crop"], video: "https://assets.mixkit.co/videos/preview/mixkit-little-girl-lying-in-bed-41484-large.mp4" },
+      { id: 3, title: "Pastel Festive Kurta & Dupatta Set", category: "kurtas", price: 1599, sizes: ["S", "M", "L", "XL"], inStock: true, images: ["https://images.unsplash.com/photo-1596783074918-c84cb06531ca?w=700&auto=format&fit=crop"], video: "" },
+      { id: 4, title: "Handspun Pure Tussar Silk Saree", category: "sarees", price: 3299, sizes: ["Free Size"], inStock: true, images: ["https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=700&auto=format&fit=crop"], video: "" },
+      { id: 5, title: "Handcrafted Floral Baby Frock", category: "kids", price: 799, sizes: ["6-12M", "1-2Y", "2-3Y"], inStock: true, images: ["https://images.unsplash.com/photo-1522771930-78848d9293e8?w=700&auto=format&fit=crop"], video: "" },
+      { id: 6, title: "Artisanal Block-Print Chanderi Saree", category: "sarees", price: 1899, sizes: ["Free Size"], inStock: true, images: ["https://images.unsplash.com/photo-1609357605129-26f69add5d6e?w=700&auto=format&fit=crop"], video: "" },
+      { id: 7, title: "Hand-Embroidered Raw Silk Men's Kurta", category: "kurtas", price: 1799, sizes: ["M", "L", "XL", "XXL"], inStock: true, images: ["https://images.unsplash.com/photo-1617127365659-c47fa864d8bc?w=700&auto=format&fit=crop"], video: "" },
+      { id: 8, title: "Toddler Traditional Festive Dhoti Set", category: "kids", price: 899, sizes: ["1-2Y", "2-3Y", "3-4Y"], inStock: true, images: ["https://images.unsplash.com/photo-1503919545889-aef636e10ad4?w=700&auto=format&fit=crop"], video: "" }
+    ];
+
+    let store = JSON.parse(localStorage.getItem(CONFIG_KEY)) || initialConfig;
+    let products = JSON.parse(localStorage.getItem(PRODS_KEY)) || sampleCatalog;
+    let cart = [];
+    let activeCat = 'all';
+    let currentSelectedSize = "";
+
+    function initStore() {
+      const t = document.getElementById('ticker-text');
+      t.innerHTML = `<span>${store.ticker}</span><span>${store.ticker}</span>`;
+
+      const track = document.getElementById('carouselTrack');
+      track.innerHTML = store.ads.map(a => `
+        <div class="ad-card">
+          <img src="${a.img}" alt="${a.title}">
+          <div class="ad-content">
+            <h3>${a.title}</h3>
+            <p>${a.subtitle}</p>
+          </div>
+        </div>
+      `).join('');
+      track.style.width = (store.ads.length * 100) + '%';
+
+      document.getElementById('midAdBox').innerHTML = `
+        <img src="${store.midAd.img}" alt="Ad">
+        <div class="mid-ad-layer">
+          <h4>${store.midAd.title}</h4>
+          <p style="font-size:11px; color:var(--text-muted); margin-top:3px;">${store.midAd.sub}</p>
+        </div>
+      `;
+
+      document.getElementById('ftrHeading').innerText = store.footerHeading;
+      document.getElementById('ftrSub').innerText = store.footerSub;
+      document.getElementById('link-wa').href = `https://wa.me/${store.whatsapp}?text=Hello%20Vinaura,%20I%20have%20an%20inquiry`;
+      document.getElementById('float-wa-btn').href = `https://wa.me/${store.whatsapp}?text=Hello%20Vinaura,%20I%20have%20an%20inquiry`;
+      document.getElementById('link-ig').href = store.instagram;
+      document.getElementById('link-fb').href = store.facebook;
+      document.getElementById('link-tg').href = store.telegram;
+      document.getElementById('link-mail').href = `mailto:${store.email}`;
+
+      filterCatalog();
+    }
+
+    let slideIdx = 0;
+    setInterval(() => {
+      if (store.ads.length > 0) {
+        slideIdx = (slideIdx + 1) % store.ads.length;
+        document.getElementById('carouselTrack').style.transform = `translateX(-${slideIdx * (100 / store.ads.length)}%)`;
+      }
+    }, 4000);
+
+    function renderProducts(list) {
+      const c = document.getElementById('catalog-container');
+      c.innerHTML = '';
+      if(list.length === 0) {
+        c.innerHTML = `<div style="grid-column: span 2; text-align:center; padding:30px; color:var(--text-muted);">No garments found.</div>`;
+        return;
+      }
+      list.forEach(p => {
+        const sizesStr = p.sizes ? p.sizes.join(' · ') : 'Free Size';
+        c.innerHTML += `
+          <div class="product-box" onclick="openProduct(${p.id})">
+            <div class="prod-visual">
+              <span class="stock-tag ${p.inStock ? 'in' : 'out'}">${p.inStock ? 'In Stock' : 'Sold Out'}</span>
+              <img src="${p.images[0]}" alt="${p.title}" loading="lazy">
+            </div>
+            <div class="prod-details">
+              <div class="prod-title">${p.title}</div>
+              <div class="prod-sizes-preview">Sizes: ${sizesStr}</div>
+              <div class="price-row">
+                <span class="price-now">₹${p.price}</span>
+                <span class="price-mrp">₹${p.price + 600}</span>
+              </div>
+              <button class="add-bag-btn" onclick="event.stopPropagation(); openProduct(${p.id})">Select Size & Buy</button>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    function filterCatalog() {
+      const q = document.getElementById('searchInput').value.toLowerCase();
+      const res = products.filter(p => {
+        const cMatch = activeCat === 'all' || p.category === activeCat;
+        const sMatch = p.title.toLowerCase().includes(q);
+        return cMatch && sMatch;
+      });
+      renderProducts(res);
+    }
+
+    function setCategory(cat, btn) {
+      activeCat = cat;
+      document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      filterCatalog();
+    }
+
+    function openProduct(id) {
+      const p = products.find(i => i.id === id);
+      if(!p) return;
+      currentSelectedSize = "";
+
+      const track = document.getElementById('modalMediaTrack');
+      track.innerHTML = '';
+
+      p.images.forEach(img => {
+        track.innerHTML += `<div class="media-frame"><img src="${img}" alt="Look"></div>`;
+      });
+
+      if(p.video) {
+        track.innerHTML += `<div class="media-frame"><video controls autoplay muted loop playsinline><source src="${p.video}" type="video/mp4"></video></div>`;
+      }
+
+      document.getElementById('modalTitle').innerText = p.title;
+      document.getElementById('modalPrice').innerText = '₹' + p.price;
+      document.getElementById('modalDesc').innerText = "100% authentic handloom craftsmanship. Handspun natural fibers, gentle wash, breathable fit & tailored luxury.";
+
+      const sizeOptionsWrap = document.getElementById('modalSizeOptions');
+      sizeOptionsWrap.innerHTML = '';
+      const availableSizes = p.sizes && p.sizes.length > 0 ? p.sizes : ["Free Size"];
+      
+      availableSizes.forEach((sz) => {
+        const bubble = document.createElement('div');
+        bubble.className = 'size-bubble';
+        bubble.innerText = sz;
+        bubble.onclick = function() {
+          document.querySelectorAll('.size-bubble').forEach(b => b.classList.remove('selected'));
+          bubble.classList.add('selected');
+          currentSelectedSize = sz;
+        };
+        if(availableSizes.length === 1) {
+          bubble.classList.add('selected');
+          currentSelectedSize = sz;
+        }
+        sizeOptionsWrap.appendChild(bubble);
+      });
+
+      document.getElementById('modalAddBtn').onclick = () => {
+        if(!currentSelectedSize) {
+          alert('దయచేసి మీ సైజ్ (Size) ని ఎంచుకోండి!');
+          return;
+        }
+        addToBag(p.id, currentSelectedSize);
+        closeModal('productModal');
+      };
+
+      document.getElementById('productModal').classList.add('active');
+    }
+
+    function openSizeChart() {
+      document.getElementById('sizeChartModal').classList.add('active');
+    }
+
+    function addToBag(id, selectedSize) {
+      const p = products.find(i => i.id === id);
+      if(p) {
+        cart.push({ ...p, selectedSize });
+        document.getElementById('cart-count').innerText = cart.length;
+        openCart();
+      }
+    }
+
+    function openCart() {
+      const list = document.getElementById('cartItemList');
+      list.innerHTML = '';
+      let sum = 0;
+      cart.forEach((item, idx) => {
+        sum += item.price;
+        list.innerHTML += `
+          <div class="cart-row">
+            <div>
+              <div style="font-size:11px; font-weight:600; color:#fff;">${item.title}</div>
+              <div style="font-size:10px; color:var(--gold); margin-top:2px;">Size: <b>${item.selectedSize}</b> | ₹${item.price}</div>
+            </div>
+            <button onclick="removeCartItem(${idx})" style="border:none; background:transparent; color:#ef5350; font-size:11px; cursor:pointer;">Remove</button>
+          </div>
+        `;
+      });
+      document.getElementById('cartTotalSum').innerText = '₹' + sum;
+      document.getElementById('cartDrawer').classList.add('active');
+    }
+
+    function removeCartItem(idx) {
+      cart.splice(idx, 1);
+      document.getElementById('cart-count').innerText = cart.length;
+      openCart();
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('active');
+    }
+
+    function executeUPI() {
+      if(cart.length === 0) return alert('Bag is empty!');
+      const sum = cart.reduce((a, b) => a + b.price, 0);
+      const uri = `upi://pay?pa=${store.upiId}&pn=Vinaura&am=${sum}&cu=INR&tn=Vinaura Prepaid Luxury Order`;
+      window.location.href = uri;
+    }
+
+    function sendOrderToWhatsApp() {
+      if(cart.length === 0) return alert('Bag is empty!');
+      const name = document.getElementById('cust-name').value.trim();
+      const phone = document.getElementById('cust-phone').value.trim();
+      const address = document.getElementById('cust-address').value.trim();
+
+      if(!name || !phone || !address) {
+        return alert('దయచేసి పేరు, ఫోన్ నంబర్ మరియు అడ్రస్ ఎంటర్ చేయండి!');
+      }
+
+      const sum = cart.reduce((a, b) => a + b.price, 0);
+      let itemsText = "";
+      cart.forEach((item, idx) => {
+        itemsText += `%0A${idx+1}. ${encodeURIComponent(item.title)} (Size: *${encodeURIComponent(item.selectedSize)}*) - ₹${item.price}`;
+      });
+
+      const message = `🛍️ *NEW PREPAID ORDER - VINAURA*%0A%0A*👤 Customer:* ${encodeURIComponent(name)}%0A*📞 Phone:* ${encodeURIComponent(phone)}%0A*📍 Delivery Address:* ${encodeURIComponent(address)}%0A%0A*📦 Ordered Items & Sizes:*${itemsText}%0A%0A*💰 Total Amount:* ₹${sum}%0A*💳 Payment:* Prepaid UPI Completed`;
+      
+      const waUrl = `https://wa.me/${store.whatsapp}?text=${message}`;
+      window.open(waUrl, '_blank');
+    }
+
+    let logoTapCount = 0;
+    let logoTapTimer;
+    function handleLogoClick() {
+      logoTapCount++;
+      clearTimeout(logoTapTimer);
+      logoTapTimer = setTimeout(() => { logoTapCount = 0; }, 600);
+      if (logoTapCount >= 3) {
+        logoTapCount = 0;
+        triggerAdminPrompt();
+      }
+    }
+
+    window.addEventListener('hashchange', () => {
+      if(window.location.hash === '#admin') triggerAdminPrompt();
+    });
+
+    function triggerAdminPrompt() {
+      const pin = prompt('Enter Vinaura Master Owner PIN:');
+      if(pin === '1234') {
+        showAdminPanel();
+      } else {
+        alert('Incorrect Master PIN!');
+        window.location.hash = '';
+      }
+    }
+
+    function showAdminPanel() {
+      document.getElementById('adm-ticker').value = store.ticker;
+      document.getElementById('adm-upi').value = store.upiId;
+      document.getElementById('adm-ftr').value = store.footerHeading;
+      document.getElementById('adm-wa').value = store.whatsapp;
+      document.getElementById('adm-ig').value = store.instagram;
+      document.getElementById('adm-fb').value = store.facebook;
+      document.getElementById('adm-tg').value = store.telegram;
+      document.getElementById('adm-mail').value = store.email;
+
+      loadAdminCatalogList();
+      document.getElementById('admin-sec').style.display = 'block';
+    }
+
+    function exitAdmin() {
+      document.getElementById('admin-sec').style.display = 'none';
+      window.location.hash = '';
+    }
+
+    function saveStoreConfig() {
+      store.ticker = document.getElementById('adm-ticker').value;
+      store.upiId = document.getElementById('adm-upi').value;
+      store.footerHeading = document.getElementById('adm-ftr').value;
+      saveAndRefresh();
+      alert('Settings Saved Successfully!');
+    }
+
+    function saveSocialLinks() {
+      store.whatsapp = document.getElementById('adm-wa').value;
+      store.instagram = document.getElementById('adm-ig').value;
+      store.facebook = document.getElementById('adm-fb').value;
+      store.telegram = document.getElementById('adm-tg').value;
+      store.email = document.getElementById('adm-mail').value;
+      saveAndRefresh();
+      alert('Social Media & WhatsApp Number Saved!');
+    }
+
+    function saveAndRefresh() {
+      localStorage.setItem(CONFIG_KEY, JSON.stringify(store));
+      initStore();
+    }
+
+    function loadAdminCatalogList() {
+      const wrap = document.getElementById('admin-catalog-list');
+      wrap.innerHTML = '';
+      products.forEach(p => {
+        const sizesDisplay = p.sizes ? p.sizes.join(', ') : 'Free Size';
+        wrap.innerHTML += `
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid var(--border);">
+            <div style="max-width:55%;">
+              <div style="font-size:11px; font-weight:600; color:#fff;">${p.title}</div>
+              <div style="font-size:10px; color:var(--gold);">₹${p.price} | Sizes: <b>${sizesDisplay}</b></div>
+            </div>
+            <div style="display:flex; gap:4px;">
+              <button onclick="editProduct(${p.id})" style="padding:4px 7px; font-size:10px; background:var(--gold); border:none; border-radius:4px; cursor:pointer; font-weight:700;">Edit</button>
+              <button onclick="toggleProdStock(${p.id})" style="padding:4px 7px; font-size:10px; background:#222; color:#fff; border:1px solid #444; border-radius:4px; cursor:pointer;">${p.inStock ? 'Stock' : 'Out'}</button>
+              <button onclick="deleteProduct(${p.id})" style="padding:4px 7px; font-size:10px; background:#b71c1c; color:#fff; border:none; border-radius:4px; cursor:pointer;">Del</button>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    function toggleProdStock(id) {
+      const p = products.find(i => i.id === id);
+      if(p) {
+        p.inStock = !p.inStock;
+        persistProducts();
+        loadAdminCatalogList();
+        filterCatalog();
+      }
+    }
+
+    function deleteProduct(id) {
+      if(confirm('Are you sure you want to delete this product?')) {
+        products = products.filter(p => p.id !== id);
+        persistProducts();
+        loadAdminCatalogList();
+        filterCatalog();
+      }
+    }
+
+    function editProduct(id) {
+      const p = products.find(i => i.id === id);
+      if(!p) return;
+      document.getElementById('edit-prod-id').value = p.id;
+      document.getElementById('p-name').value = p.title;
+      document.getElementById('p-cost').value = p.price;
+      document.getElementById('p-cat').value = p.category;
+      document.getElementById('p-sizes').value = p.sizes ? p.sizes.join(', ') : 'Free Size';
+      document.getElementById('prod-form-heading').innerText = "Edit Garment & Available Sizes";
+      document.getElementById('prod-save-btn').innerText = "Update Product";
+      document.getElementById('cancel-edit-btn').style.display = "block";
+      document.getElementById('admin-sec').scrollTo({ top: 300, behavior: 'smooth' });
+    }
+
+    function resetProdForm() {
+      document.getElementById('edit-prod-id').value = "";
+      document.getElementById('p-name').value = "";
+      document.getElementById('p-cost').value = "";
+      document.getElementById('p-sizes').value = "";
+      document.getElementById('prod-form-heading').innerText = "3. Add New Garment & Sizes";
+      document.getElementById('prod-save-btn').innerText = "Publish Product";
+      document.getElementById('cancel-edit-btn').style.display = "none";
+    }
+
+    function handleProductSubmit() {
+      const editId = document.getElementById('edit-prod-id').value;
+      const title = document.getElementById('p-name').value;
+      const price = parseInt(document.getElementById('p-cost').value);
+      const cat = document.getElementById('p-cat').value;
+      const rawSizes = document.getElementById('p-sizes').value;
+      const files = document.getElementById('p-photos').files;
+      const vFile = document.getElementById('p-video').files[0];
+
+      if(!title || !price) return alert('Enter Title and Price');
+
+      const parsedSizes = rawSizes ? rawSizes.split(',').map(s => s.trim()).filter(Boolean) : ["Free Size"];
+
+      if(editId) {
+        const p = products.find(i => i.id == editId);
+        if(p) {
+          p.title = title;
+          p.price = price;
+          p.category = cat;
+          p.sizes = parsedSizes;
+          if(files.length > 0) {
+            readAndAttachMedia(files, vFile, (imgs, vid) => {
+              p.images = imgs;
+              if(vid) p.video = vid;
+              persistProducts();
+              resetProdForm();
+              loadAdminCatalogList();
+              filterCatalog();
+              alert('Product Updated with new Sizes & Photos!');
+            });
+            return;
+          }
+          persistProducts();
+          resetProdForm();
+          loadAdminCatalogList();
+          filterCatalog();
+          alert('Product Details & Sizes Updated!');
+        }
+      } else {
+        if(files.length === 0) return alert('Select at least 1 image');
+        readAndAttachMedia(files, vFile, (imgs, vid) => {
+          products.unshift({
+            id: Date.now(),
+            title: title,
+            category: cat,
+            price: price,
+            sizes: parsedSizes,
+            inStock: true,
+            images: imgs,
+            video: vid || ""
+          });
+          persistProducts();
+          resetProdForm();
+          loadAdminCatalogList();
+          filterCatalog();
+          alert('New Garment Published!');
+        });
+      }
+    }
+
+    function readAndAttachMedia(files, vFile, callback) {
+      let images = [];
+      let count = 0;
+      for(let i=0; i<files.length; i++) {
+        const r = new FileReader();
+        r.onload = e => {
+          images.push(e.target.result);
+          count++;
+          if(count === files.length) {
+            if(vFile) {
+              const vr = new FileReader();
+              vr.onload = ev => callback(images, ev.target.result);
+              vr.readAsDataURL(vFile);
+            } else {
+              callback(images, "");
+            }
+          }
+        };
+        r.readAsDataURL(files[i]);
+      }
+    }
+
+    function persistProducts() {
+      localStorage.setItem(PRODS_KEY, JSON.stringify(products));
+    }
+
+    initStore();
+  </script>
+</body>
+</html>
