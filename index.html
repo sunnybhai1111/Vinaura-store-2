@@ -3,232 +3,344 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vinaura | Luxury Handcrafted & Handloom Couture</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <title>Vinaura | Luxury Handcrafted Couture</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary: #2c1810;
-      --accent: #b38742;
-      --accent-light: #f7f3ee;
-      --bg: #faf8f5;
+      --primary: #2b170e;
+      --accent: #c59b4e;
+      --bg: #f9f7f4;
       --card-bg: #ffffff;
-      --text: #1a1a1a;
-      --text-muted: #666666;
+      --text: #1d1d1d;
+      --border: #ece7df;
       --radius: 12px;
-      --shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
-    body { background-color: var(--bg); color: var(--text); padding-bottom: 90px; }
+    body { background: var(--bg); color: var(--text); padding-bottom: 80px; }
 
-    /* Top Strip */
-    .top-strip { background: var(--primary); color: #fff; font-size: 11px; text-align: center; padding: 6px 12px; letter-spacing: 0.5px; font-weight: 500; }
+    /* Moving Announcement Ticker */
+    .ticker-wrap { width: 100%; overflow: hidden; background: var(--primary); color: #f8e8d0; font-size: 11px; font-weight: 600; padding: 8px 0; }
+    .ticker-content { display: inline-flex; white-space: nowrap; animation: tickerScroll 20s linear infinite; gap: 40px; }
+    @keyframes tickerScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
     /* Header */
-    header { background: #ffffff; padding: 14px 18px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.04); display: flex; justify-content: space-between; align-items: center; }
-    .brand-title { font-family: 'Cinzel', serif; font-size: 22px; font-weight: 700; letter-spacing: 2px; color: var(--primary); }
-    .cart-btn { background: var(--primary); color: #fff; border: none; padding: 8px 16px; border-radius: 30px; font-size: 13px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+    header { background: #fff; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.04); padding: 12px 16px; display: flex; flex-direction: column; gap: 10px; }
+    .nav-top { display: flex; justify-content: space-between; align-items: center; }
+    .brand-title { font-family: 'Cinzel', serif; font-size: 24px; font-weight: 700; letter-spacing: 3px; color: var(--primary); }
+    .cart-pill { background: var(--primary); color: #fff; border: none; padding: 8px 16px; border-radius: 30px; font-size: 13px; font-weight: 600; cursor: pointer; }
 
-    /* Hero Offer Slider (Myntra Style) */
-    .banner-container { width: 100%; overflow-x: auto; scroll-snap-type: x mandatory; display: flex; gap: 12px; padding: 14px 16px; scrollbar-width: none; }
-    .banner-container::-webkit-scrollbar { display: none; }
-    .banner-card { min-width: 90%; scroll-snap-align: center; border-radius: var(--radius); overflow: hidden; position: relative; height: 160px; box-shadow: var(--shadow); }
-    .banner-card img { width: 100%; height: 100%; object-fit: cover; }
-    .banner-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.7), transparent); display: flex; flex-direction: column; justify-content: flex-end; padding: 14px; color: #fff; }
-    .banner-overlay h3 { font-size: 16px; font-weight: 700; }
-    .banner-overlay p { font-size: 12px; opacity: 0.9; }
+    .search-box { position: relative; width: 100%; }
+    .search-box input { width: 100%; background: #f3f3f3; border: 1px solid transparent; border-radius: 25px; padding: 9px 16px 9px 38px; font-size: 13px; outline: none; }
+    .search-box input:focus { background: #fff; border-color: var(--accent); }
+    .search-box svg { position: absolute; left: 14px; top: 11px; width: 15px; height: 15px; fill: #888; }
 
-    /* Category Filter Tabs */
-    .tabs { display: flex; gap: 8px; padding: 8px 16px 16px; overflow-x: auto; scrollbar-width: none; }
-    .tab-btn { background: #fff; border: 1px solid #e5e5e5; padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer; white-space: nowrap; color: var(--text-muted); }
-    .tab-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); font-weight: 600; }
+    /* Auto Carousel Banners */
+    .ad-carousel { width: 100%; overflow: hidden; position: relative; }
+    .carousel-track { display: flex; transition: transform 0.5s ease; width: 100%; }
+    .ad-slide { min-width: 100%; height: 175px; position: relative; }
+    .ad-slide img { width: 100%; height: 100%; object-fit: cover; }
+    .ad-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%); color: #fff; display: flex; flex-direction: column; justify-content: flex-end; padding: 14px 18px; }
+    .ad-overlay h3 { font-size: 17px; font-weight: 700; color: #f8e8d0; }
+    .ad-overlay p { font-size: 12px; }
+
+    /* Category Tabs */
+    .tabs-row { display: flex; gap: 8px; padding: 12px 16px; overflow-x: auto; scrollbar-width: none; background: #fff; border-bottom: 1px solid var(--border); }
+    .tabs-row::-webkit-scrollbar { display: none; }
+    .tab-item { background: #f4f4f4; border: none; padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; color: #555; }
+    .tab-item.active { background: var(--primary); color: #fff; }
 
     /* Product Grid */
-    .products-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 0 16px; }
-    .product-card { background: var(--card-bg); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); border: 1px solid rgba(0,0,0,0.03); display: flex; flex-direction: column; cursor: pointer; position: relative; }
-    .product-img-box { width: 100%; height: 210px; position: relative; overflow: hidden; }
-    .product-img-box img { width: 100%; height: 100%; object-fit: cover; }
-    .badge { position: absolute; top: 8px; left: 8px; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; }
-    .badge.in { background: #e8f5e9; color: #2e7d32; }
-    .badge.out { background: #ffebee; color: #c62828; }
-    .info { padding: 10px 12px 14px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
-    .title { font-size: 13px; font-weight: 600; color: var(--text); line-height: 1.3; margin-bottom: 4px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
-    .price-row { display: flex; align-items: baseline; gap: 6px; margin: 4px 0 8px; }
+    .products-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 14px 16px; }
+    .product-card { background: var(--card-bg); border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); display: flex; flex-direction: column; cursor: pointer; }
+    .prod-img-box { position: relative; width: 100%; height: 215px; background: #f2f2f2; }
+    .prod-img-box img { width: 100%; height: 100%; object-fit: cover; }
+    .badge { position: absolute; top: 8px; left: 8px; font-size: 10px; font-weight: 700; padding: 3px 7px; border-radius: 4px; text-transform: uppercase; }
+    .badge.in { background: #e8f5e9; color: #1b5e20; }
+    .badge.out { background: #ffebee; color: #b71c1c; }
+    .prod-info { padding: 10px 12px; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between; }
+    .prod-title { font-size: 13px; font-weight: 600; line-height: 1.3; margin-bottom: 4px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+    .price-wrap { display: flex; align-items: baseline; gap: 6px; margin: 4px 0 10px; }
     .price { font-size: 15px; font-weight: 700; color: var(--primary); }
     .mrp { font-size: 11px; text-decoration: line-through; color: #999; }
-    .add-btn { background: #fff; border: 1px solid var(--primary); color: var(--primary); padding: 7px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; transition: 0.2s; }
-    .add-btn:hover { background: var(--primary); color: #fff; }
+    .add-btn { background: #fff; border: 1px solid var(--primary); color: var(--primary); padding: 8px; border-radius: 6px; font-size: 12px; font-weight: 700; cursor: pointer; }
 
-    /* Product Modal / Detail View */
-    .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 1000; display: none; align-items: flex-end; justify-content: center; backdrop-filter: blur(4px); }
+    /* Middle Ad Banner */
+    .mid-ad { margin: 10px 16px 16px; border-radius: var(--radius); overflow: hidden; position: relative; height: 120px; }
+    .mid-ad img { width: 100%; height: 100%; object-fit: cover; }
+    .mid-ad-overlay { position: absolute; inset: 0; background: rgba(43,23,14,0.7); display: flex; flex-direction: column; justify-content: center; align-items: center; color: #fff; text-align: center; padding: 10px; }
+
+    /* Footer */
+    footer { background: var(--primary); color: #f8e8d0; text-align: center; padding: 30px 20px; margin-top: 30px; }
+    footer h4 { font-family: 'Cinzel', serif; font-size: 16px; margin-bottom: 6px; }
+    footer p { font-size: 12px; opacity: 0.8; }
+
+    /* Modal / Detail View */
+    .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.65); z-index: 1000; display: none; align-items: flex-end; justify-content: center; }
     .modal.active { display: flex; }
-    .modal-sheet { background: #fff; width: 100%; max-width: 500px; max-height: 90vh; border-radius: 20px 20px 0 0; overflow-y: auto; padding: 20px 16px; position: relative; }
-    .close-btn { position: absolute; top: 14px; right: 16px; background: #eee; border: none; width: 30px; height: 30px; border-radius: 50%; font-size: 16px; cursor: pointer; }
+    .modal-sheet { background: #fff; width: 100%; max-width: 500px; max-height: 92vh; border-radius: 20px 20px 0 0; overflow-y: auto; padding: 20px 16px 30px; position: relative; }
+    .close-btn { position: absolute; top: 14px; right: 16px; background: #ece7df; border: none; width: 32px; height: 32px; border-radius: 50%; font-size: 16px; cursor: pointer; }
     
-    /* Image Gallery & Video */
-    .gallery-container { display: flex; gap: 8px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 8px; scrollbar-width: none; }
-    .gallery-container img, .gallery-container video { min-width: 85%; height: 320px; object-fit: cover; border-radius: 10px; scroll-snap-align: center; }
+    .media-scroller { display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 10px; scrollbar-width: none; }
+    .media-item { min-width: 88%; height: 340px; scroll-snap-align: center; border-radius: 12px; overflow: hidden; background: #000; }
+    .media-item img, .media-item video { width: 100%; height: 100%; object-fit: cover; }
 
-    /* Cart Floating Bar */
-    .floating-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; padding: 12px 20px; box-shadow: 0 -4px 20px rgba(0,0,0,0.08); display: flex; justify-content: space-between; align-items: center; z-index: 99; }
+    /* Cart Drawer */
+    .cart-drawer { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 1100; display: none; justify-content: flex-end; }
+    .cart-drawer.active { display: flex; }
+    .cart-content { background: #fff; width: 100%; max-width: 420px; height: 100%; display: flex; flex-direction: column; padding: 20px; }
+    .cart-items-scroll { flex-grow: 1; overflow-y: auto; margin: 15px 0; }
+    .cart-item-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border); }
+    .upi-btn { background: #1b8e3b; color: #fff; border: none; padding: 14px; border-radius: 10px; font-size: 15px; font-weight: 700; width: 100%; cursor: pointer; }
 
-    /* Secret Admin Area */
-    #admin-sec { display: none; position: fixed; inset: 0; background: #fff; z-index: 2000; padding: 20px; overflow-y: auto; }
-    .input-field { width: 100%; padding: 10px; margin: 8px 0 14px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
+    /* Full Secret Admin Panel */
+    #admin-sec { display: none; position: fixed; inset: 0; background: #fff; z-index: 3000; padding: 20px; overflow-y: auto; }
+    .admin-card { background: #fdfaf6; border: 1px solid #ebdccb; border-radius: 8px; padding: 15px; margin-bottom: 20px; }
+    .admin-input { width: 100%; padding: 10px; margin: 6px 0 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 13px; }
+    .admin-btn { background: var(--primary); color: #fff; border: none; padding: 10px 16px; border-radius: 6px; cursor: pointer; font-weight: 600; width: 100%; margin-top: 5px; }
   </style>
 </head>
 <body>
 
-  <div class="top-strip">✨ HANDMADE LUXURY | FREE DELIVERY ACROSS INDIA</div>
+  <!-- 1. Ticker (Editable in Admin) -->
+  <div class="ticker-wrap">
+    <div class="ticker-content" id="ticker-text">
+      <!-- Injected via JS -->
+    </div>
+  </div>
 
+  <!-- Header -->
   <header>
-    <div class="brand-title">VINAURA</div>
-    <button class="cart-btn" onclick="openCart()">🛍️ Cart (<span id="cart-count">0</span>)</button>
+    <div class="nav-top">
+      <div class="brand-title">VINAURA</div>
+      <button class="cart-pill" onclick="openCart()">🛍️ Bag (<span id="cart-count">0</span>)</button>
+    </div>
+    <div class="search-box">
+      <svg viewBox="0 0 24 24"><path d="M10 2a8 8 0 105.3 14l5.4 5.4 1.4-1.4-5.4-5.4A8 8 0 0010 2zm0 2a6 6 0 110 12 6 6 0 010-12z"/></svg>
+      <input type="text" id="searchInput" placeholder="Search kurtas, handloom sarees, kids wear..." onkeyup="filterProducts()">
+    </div>
   </header>
 
-  <!-- Myntra Style Carousel Banners -->
-  <div class="banner-container">
-    <div class="banner-card">
-      <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=700&auto=format&fit=crop" alt="Festive Sarees">
-      <div class="banner-overlay">
-        <h3>Royal Silk Sarees</h3>
-        <p>100% Pure Handloom | Flat 20% Off</p>
-      </div>
-    </div>
-    <div class="banner-card">
-      <img src="https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?w=700&auto=format&fit=crop" alt="Kids Collection">
-      <div class="banner-overlay">
-        <h3>Soft Organic Cotton for Kids</h3>
-        <p>Gentle on skin | Handcrafted with Love</p>
-      </div>
-    </div>
+  <!-- Top Carousel Banners (Editable in Admin) -->
+  <div class="ad-carousel">
+    <div class="carousel-track" id="carouselTrack"></div>
   </div>
 
   <!-- Category Filter -->
-  <div class="tabs">
-    <button class="tab-btn active" onclick="filterCategory('all', this)">All Collections</button>
-    <button class="tab-btn" onclick="filterCategory('kids', this)">Kids Wear</button>
-    <button class="tab-btn" onclick="filterCategory('sarees', this)">Handloom Sarees</button>
-    <button class="tab-btn" onclick="filterCategory('kurtas', this)">Kurtas & Sets</button>
+  <div class="tabs-row">
+    <button class="tab-item active" onclick="setCategory('all', this)">All Items</button>
+    <button class="tab-item" onclick="setCategory('kids', this)">Kids Wear</button>
+    <button class="tab-item" onclick="setCategory('sarees', this)">Handloom Sarees</button>
+    <button class="tab-item" onclick="setCategory('kurtas', this)">Kurtas & Sets</button>
   </div>
 
-  <!-- Products -->
+  <!-- Product Catalog -->
   <div class="products-grid" id="products-container"></div>
 
-  <!-- Detail Popup (Multiple Images & Video) -->
+  <!-- Middle Banner Ad (Editable in Admin) -->
+  <div class="mid-ad" id="midAdContainer"></div>
+
+  <!-- Footer (Editable in Admin) -->
+  <footer id="footerContainer"></footer>
+
+  <!-- Product Modal (Swipe Images & Video) -->
   <div class="modal" id="productModal">
     <div class="modal-sheet">
       <button class="close-btn" onclick="closeModal('productModal')">✕</button>
-      <div class="gallery-container" id="modalGallery"></div>
-      <h2 id="modalTitle" style="font-size: 18px; margin: 12px 0 6px;"></h2>
-      <div class="price-row">
-        <span class="price" id="modalPrice" style="font-size: 18px;"></span>
+      <div class="media-scroller" id="modalMedia"></div>
+      <div style="font-size: 11px; color: #888; text-align: center; margin-top: 4px;">👉 Swipe photos & video</div>
+      <h2 id="modalTitle" style="font-size: 19px; margin: 12px 0 6px;"></h2>
+      <div class="price-wrap">
+        <span class="price" id="modalPrice" style="font-size: 20px;"></span>
       </div>
       <p id="modalDesc" style="font-size: 13px; color: #555; line-height: 1.5; margin-bottom: 20px;"></p>
-      <button class="cart-btn" style="width: 100%; justify-content: center; padding: 12px; border-radius: 8px;" id="modalAddBtn">Add to Bag</button>
+      <button class="upi-btn" id="modalAddBtn">Add to Bag</button>
     </div>
   </div>
 
-  <!-- Cart Modal -->
-  <div class="modal" id="cartModal">
-    <div class="modal-sheet">
-      <button class="close-btn" onclick="closeModal('cartModal')">✕</button>
-      <h2 style="font-size: 18px; margin-bottom: 14px;">Your Shopping Bag</h2>
-      <div id="cartItemsList" style="margin-bottom: 20px;"></div>
-      <div style="display: flex; justify-content: space-between; font-weight: 700; margin-bottom: 16px;">
-        <span>Total:</span>
-        <span id="cartTotal">₹0</span>
+  <!-- Cart Drawer -->
+  <div class="cart-drawer" id="cartDrawer">
+    <div class="cart-content">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 12px;">
+        <h3 style="font-size: 18px;">Shopping Bag</h3>
+        <button onclick="closeModal('cartDrawer')" style="border:none; background:#eee; padding:6px 12px; border-radius:20px; cursor:pointer;">Close</button>
       </div>
-      <button class="cart-btn" style="width: 100%; justify-content: center; padding: 14px; border-radius: 8px; background: #25d366;" onclick="checkoutUPI()">
-        Proceed to UPI Pay (GPay / PhonePe)
-      </button>
+      <div class="cart-items-scroll" id="cartList"></div>
+      <div style="border-top: 1px solid var(--border); padding-top: 15px;">
+        <div style="display:flex; justify-content:space-between; margin-bottom:6px; font-size:13px; color:#666;">
+          <span>Delivery Charges</span>
+          <span style="color:#1b8e3b; font-weight:700;">FREE</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:14px; font-size:16px; font-weight:700;">
+          <span>Total Payable</span>
+          <span id="cartTotal">₹0</span>
+        </div>
+        <button class="upi-btn" onclick="triggerUPI()">Pay via UPI (GPay / PhonePe / Paytm)</button>
+        <div style="font-size: 10px; text-align: center; color: #777; margin-top: 8px;">100% Verified Secure Prepaid Order</div>
+      </div>
     </div>
   </div>
 
-  <!-- Secret Admin Dashboard (No links on page) -->
+  <!-- Secret Master Admin Dashboard -->
   <div id="admin-sec">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-      <h2>Vinaura Secret Admin</h2>
-      <button onclick="document.getElementById('admin-sec').style.display='none'" style="padding: 6px 12px;">Close</button>
+    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #ddd; padding-bottom:12px; margin-bottom:15px;">
+      <h2>Vinaura Master Admin</h2>
+      <button onclick="closeAdmin()" style="padding:6px 14px; background:#c00; color:#fff; border:none; border-radius:4px;">Exit</button>
     </div>
-    
-    <h3>Add New Product</h3>
-    <input type="text" id="new-name" placeholder="Dress Title" class="input-field">
-    <input type="number" id="new-price" placeholder="Price (₹)" class="input-field">
-    <select id="new-cat" class="input-field">
-      <option value="kids">Kids Wear</option>
-      <option value="sarees">Handloom Sarees</option>
-      <option value="kurtas">Kurtas & Sets</option>
-    </select>
-    <label style="font-size: 12px;">Upload Photo from Mobile:</label>
-    <input type="file" id="new-img-file" accept="image/*" class="input-field" multiple>
-    <button class="cart-btn" style="width: 100%; justify-content: center; padding: 10px;" onclick="addNewProduct()">Save Product</button>
-    
-    <h3 style="margin: 24px 0 10px;">Manage Existing Stock</h3>
-    <div id="admin-stock-list"></div>
+
+    <!-- 1. Store Settings & Ticker -->
+    <div class="admin-card">
+      <h3>1. Store Banner & Policies</h3>
+      <label style="font-size:12px; font-weight:600;">Top Moving Ticker Line (Notice):</label>
+      <input type="text" id="adm-ticker" class="admin-input">
+
+      <label style="font-size:12px; font-weight:600;">Your UPI ID for Payments:</label>
+      <input type="text" id="adm-upi" class="admin-input">
+
+      <label style="font-size:12px; font-weight:600;">Footer Greeting Text:</label>
+      <input type="text" id="adm-footer" class="admin-input">
+
+      <button class="admin-btn" onclick="saveStoreSettings()">Save Settings</button>
+    </div>
+
+    <!-- 2. Manage Top Ads -->
+    <div class="admin-card">
+      <h3>2. Top Sliding Ads (Myntra Style)</h3>
+      <label style="font-size:12px; font-weight:600;">Ad 1 Title & Photo URL:</label>
+      <input type="text" id="adm-ad1-title" class="admin-input" placeholder="Title">
+      <input type="text" id="adm-ad1-img" class="admin-input" placeholder="Image URL">
+
+      <label style="font-size:12px; font-weight:600;">Ad 2 Title & Photo URL:</label>
+      <input type="text" id="adm-ad2-title" class="admin-input" placeholder="Title">
+      <input type="text" id="adm-ad2-img" class="admin-input" placeholder="Image URL">
+
+      <button class="admin-btn" onclick="saveAds()">Update Ads</button>
+    </div>
+
+    <!-- 3. Add New Product -->
+    <div class="admin-card">
+      <h3>3. Add New Handcrafted Product</h3>
+      <input type="text" id="p-title" placeholder="Product Name" class="admin-input">
+      <input type="number" id="p-price" placeholder="Price (₹)" class="admin-input">
+      <select id="p-category" class="admin-input">
+        <option value="kids">Kids Wear</option>
+        <option value="sarees">Handloom Sarees</option>
+        <option value="kurtas">Kurtas & Sets</option>
+      </select>
+      <label style="font-size:12px; font-weight:600;">Select Photos from Mobile Gallery (Multiple allowed):</label>
+      <input type="file" id="p-files" accept="image/*" class="admin-input" multiple>
+      <label style="font-size:12px; font-weight:600;">Optional Video Clip:</label>
+      <input type="file" id="p-video-file" accept="video/*" class="admin-input">
+      <button class="admin-btn" onclick="uploadProduct()">Publish to Store</button>
+    </div>
+
+    <!-- 4. Stock & Product Deletion Control -->
+    <div class="admin-card">
+      <h3>4. Stock & Catalog Manager</h3>
+      <p style="font-size:12px; color:#666; margin-bottom:10px;">Remove unwanted demo products or toggle in/out of stock.</p>
+      <div id="admin-stock-items"></div>
+    </div>
   </div>
 
   <script>
-    const defaultProducts = [
-      {
-        id: 1,
-        title: "Pure Organic Cotton Kids Jabla",
-        category: "kids",
-        price: 499,
-        mrp: 799,
-        inStock: true,
-        images: [
-          "https://images.unsplash.com/photo-1519689680058-324335c77eba?w=600&auto=format&fit=crop",
-          "https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?w=600&auto=format&fit=crop"
-        ],
-        video: ""
-      },
-      {
-        id: 2,
-        title: "Handcrafted Floral Baby Frock",
-        category: "kids",
-        price: 799,
-        mrp: 1299,
-        inStock: true,
-        images: [
-          "https://images.unsplash.com/photo-1522771930-78848d9293e8?w=600&auto=format&fit=crop"
-        ],
-        video: ""
-      },
-      {
-        id: 3,
-        title: "Royal Crimson Zari Handloom Saree",
-        category: "sarees",
-        price: 2499,
-        mrp: 3999,
-        inStock: true,
-        images: [
-          "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&auto=format&fit=crop"
-        ],
-        video: ""
+    // 1. Initial Store Config
+    const defaultConfig = {
+      ticker: "✨ 100% HANDCRAFTED LUXURY | 🚚 FREE DELIVERY ACROSS INDIA | 💳 STRICTLY PREPAID ORDERS ONLY (NO CASH ON DELIVERY) | 🔒 INSTANT UPI CHECKOUT",
+      upiId: "vinaura@okhdfcbank",
+      footerHeading: "Thank you for supporting handloom craft.",
+      footerSub: "Vinaura | Authentic Handcrafted Luxury Studio. All orders dispatched via insured express courier.",
+      ads: [
+        { title: "Royal Handloom Sarees", subtitle: "Artisanal weaves | Pure Zari Finish", img: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=800&auto=format&fit=crop" },
+        { title: "Pure Organic Kids Wardrobe", subtitle: "Hand-stitched with breathable comfort", img: "https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?w=800&auto=format&fit=crop" },
+        { title: "Festive Designer Kurtas", subtitle: "Custom handmade elegance", img: "https://images.unsplash.com/photo-1596783074918-c84cb06531ca?w=800&auto=format&fit=crop" }
+      ],
+      midAd: {
+        title: "NO MASS FACTORY PRODUCTION",
+        sub: "Each piece is hand-tailored with organic dyes and handspun yarn.",
+        img: "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=800&auto=format&fit=crop"
       }
+    };
+
+    // 2. Demo Products (Varied Luxury Samples)
+    const demoCatalog = [
+      { id: 1, title: "Pure Organic Cotton Kids Jabla Set", category: "kids", price: 499, inStock: true, images: ["https://images.unsplash.com/photo-1519689680058-324335c77eba?w=700&auto=format&fit=crop", "https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?w=700&auto=format&fit=crop"], video: "https://assets.mixkit.co/videos/preview/mixkit-little-girl-lying-in-bed-41484-large.mp4" },
+      { id: 2, title: "Handcrafted Floral Baby Frock", category: "kids", price: 799, inStock: true, images: ["https://images.unsplash.com/photo-1522771930-78848d9293e8?w=700&auto=format&fit=crop"], video: "" },
+      { id: 3, title: "Royal Crimson Zari Handloom Saree", category: "sarees", price: 2499, inStock: true, images: ["https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=700&auto=format&fit=crop", "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=700&auto=format&fit=crop"], video: "https://assets.mixkit.co/videos/preview/mixkit-traditional-indian-wedding-jewelry-and-decor-43555-large.mp4" },
+      { id: 4, title: "Handspun Pure Tussar Silk Saree", category: "sarees", price: 3199, inStock: true, images: ["https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=700&auto=format&fit=crop"], video: "" },
+      { id: 5, title: "Artisanal Block-Print Chanderi Saree", category: "sarees", price: 1899, inStock: true, images: ["https://images.unsplash.com/photo-1609357605129-26f69add5d6e?w=700&auto=format&fit=crop"], video: "" },
+      { id: 6, title: "Pastel Festive Kurta & Dupatta Set", category: "kurtas", price: 1599, inStock: true, images: ["https://images.unsplash.com/photo-1596783074918-c84cb06531ca?w=700&auto=format&fit=crop"], video: "" },
+      { id: 7, title: "Hand-Embroidered Raw Silk Men's Kurta", category: "kurtas", price: 1799, inStock: true, images: ["https://images.unsplash.com/photo-1617127365659-c47fa864d8bc?w=700&auto=format&fit=crop"], video: "" },
+      { id: 8, title: "Toddler Traditional Dhoti Kurta Set", category: "kids", price: 899, inStock: true, images: ["https://images.unsplash.com/photo-1503919545889-aef636e10ad4?w=700&auto=format&fit=crop"], video: "" }
     ];
 
-    let products = JSON.parse(localStorage.getItem('vinaura_products')) || defaultProducts;
+    let storeConfig = JSON.parse(localStorage.getItem('vinaura_cfg')) || defaultConfig;
+    let products = JSON.parse(localStorage.getItem('vinaura_items')) || demoCatalog;
     let cart = [];
+    let currentCategory = 'all';
 
-    function renderProducts(filter = 'all') {
+    function initUI() {
+      // Ticker
+      const tick = document.getElementById('ticker-text');
+      tick.innerHTML = `<span>${storeConfig.ticker}</span><span>${storeConfig.ticker}</span>`;
+
+      // Top Ads
+      const carousel = document.getElementById('carouselTrack');
+      carousel.innerHTML = storeConfig.ads.map(ad => `
+        <div class="ad-slide">
+          <img src="${ad.img}" alt="${ad.title}">
+          <div class="ad-overlay">
+            <h3>${ad.title}</h3>
+            <p>${ad.subtitle}</p>
+          </div>
+        </div>
+      `).join('');
+      carousel.style.width = (storeConfig.ads.length * 100) + '%';
+
+      // Mid Ad
+      document.getElementById('midAdContainer').innerHTML = `
+        <img src="${storeConfig.midAd.img}" alt="Ad">
+        <div class="mid-ad-overlay">
+          <h4>${storeConfig.midAd.title}</h4>
+          <p style="font-size:12px; margin-top:4px;">${storeConfig.midAd.sub}</p>
+        </div>
+      `;
+
+      // Footer
+      document.getElementById('footerContainer').innerHTML = `
+        <h4>${storeConfig.footerHeading}</h4>
+        <p>${storeConfig.footerSub}</p>
+      `;
+
+      filterProducts();
+    }
+
+    // Auto Ad Slider
+    let curSlide = 0;
+    setInterval(() => {
+      if (storeConfig.ads.length > 0) {
+        curSlide = (curSlide + 1) % storeConfig.ads.length;
+        document.getElementById('carouselTrack').style.transform = `translateX(-${curSlide * (100 / storeConfig.ads.length)}%)`;
+      }
+    }, 3800);
+
+    function renderProducts(items) {
       const container = document.getElementById('products-container');
       container.innerHTML = '';
-      
-      const filtered = filter === 'all' ? products : products.filter(p => p.category === filter);
-
-      filtered.forEach(p => {
+      if(items.length === 0) {
+        container.innerHTML = `<div style="grid-column: span 2; text-align:center; padding:30px; color:#888;">No collection items found.</div>`;
+        return;
+      }
+      items.forEach(p => {
         container.innerHTML += `
           <div class="product-card" onclick="openDetail(${p.id})">
-            <div class="product-img-box">
-              <span class="badge ${p.inStock ? 'in' : 'out'}">${p.inStock ? 'In Stock' : 'Out of Stock'}</span>
-              <img src="${p.images[0]}" alt="${p.title}">
+            <div class="prod-img-box">
+              <span class="badge ${p.inStock ? 'in' : 'out'}">${p.inStock ? 'In Stock' : 'Sold Out'}</span>
+              <img src="${p.images[0]}" alt="${p.title}" loading="lazy">
             </div>
-            <div class="info">
-              <div class="title">${p.title}</div>
-              <div class="price-row">
+            <div class="prod-info">
+              <div class="prod-title">${p.title}</div>
+              <div class="price-wrap">
                 <span class="price">₹${p.price}</span>
-                <span class="mrp">₹${p.mrp || p.price + 500}</span>
+                <span class="mrp">₹${p.price + 600}</span>
               </div>
               <button class="add-btn" onclick="event.stopPropagation(); addToCart(${p.id})">Add to Bag</button>
             </div>
@@ -237,26 +349,44 @@
       });
     }
 
+    function filterProducts() {
+      const q = document.getElementById('searchInput').value.toLowerCase();
+      const filtered = products.filter(p => {
+        const catMatch = currentCategory === 'all' || p.category === currentCategory;
+        const searchMatch = p.title.toLowerCase().includes(q);
+        return catMatch && searchMatch;
+      });
+      renderProducts(filtered);
+    }
+
+    function setCategory(cat, btn) {
+      currentCategory = cat;
+      document.querySelectorAll('.tab-item').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      filterProducts();
+    }
+
     function openDetail(id) {
       const p = products.find(i => i.id === id);
       if(!p) return;
-      
-      const gallery = document.getElementById('modalGallery');
-      gallery.innerHTML = '';
-      
+      const media = document.getElementById('modalMedia');
+      media.innerHTML = '';
+
       p.images.forEach(img => {
-        gallery.innerHTML += `<img src="${img}" alt="Preview">`;
+        media.innerHTML += `<div class="media-item"><img src="${img}"></div>`;
       });
-      
+
       if(p.video) {
-        gallery.innerHTML += `<video controls autoplay muted playsinline><source src="${p.video}" type="video/mp4"></video>`;
+        media.innerHTML += `
+          <div class="media-item">
+            <video controls autoplay muted loop playsinline><source src="${p.video}" type="video/mp4"></video>
+          </div>`;
       }
 
       document.getElementById('modalTitle').innerText = p.title;
       document.getElementById('modalPrice').innerText = '₹' + p.price;
-      document.getElementById('modalDesc').innerText = "100% Pure handcrafted fabric with artisanal detailing. Gentle hand wash recommended.";
+      document.getElementById('modalDesc').innerText = "100% pure authentic handloom weave. Artisan crafted with gentle organic fibers.";
       document.getElementById('modalAddBtn').onclick = () => { addToCart(p.id); closeModal('productModal'); };
-      
       document.getElementById('productModal').classList.add('active');
     }
 
@@ -265,69 +395,111 @@
       if(p) {
         cart.push(p);
         document.getElementById('cart-count').innerText = cart.length;
-        alert('Added to Bag!');
+        openCart();
       }
     }
 
     function openCart() {
-      const list = document.getElementById('cartItemsList');
+      const list = document.getElementById('cartList');
       list.innerHTML = '';
       let total = 0;
-
-      cart.forEach((item, index) => {
+      cart.forEach((item, idx) => {
         total += item.price;
         list.innerHTML += `
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-            <span style="font-size:13px;">${item.title}</span>
-            <span style="font-weight:600;">₹${item.price}</span>
+          <div class="cart-item-row">
+            <div>
+              <div style="font-size:13px; font-weight:600;">${item.title}</div>
+              <div style="font-size:12px; color:#777;">₹${item.price}</div>
+            </div>
+            <button onclick="removeFromCart(${idx})" style="border:none; background:transparent; color:#c00; font-size:12px; cursor:pointer;">Remove</button>
           </div>
         `;
       });
-
       document.getElementById('cartTotal').innerText = '₹' + total;
-      document.getElementById('cartModal').classList.add('active');
+      document.getElementById('cartDrawer').classList.add('active');
+    }
+
+    function removeFromCart(idx) {
+      cart.splice(idx, 1);
+      document.getElementById('cart-count').innerText = cart.length;
+      openCart();
     }
 
     function closeModal(id) {
       document.getElementById(id).classList.remove('active');
     }
 
-    function checkoutUPI() {
-      if(cart.length === 0) return alert('Cart is empty!');
+    function triggerUPI() {
+      if(cart.length === 0) return alert('Bag is empty!');
       const total = cart.reduce((s, i) => s + i.price, 0);
-      const upiId = "vinaura@okhdfcbank"; // మీ UPI ID ఇక్కడ పెట్టండి
-      window.location.href = `upi://pay?pa=${upiId}&pn=Vinaura&am=${total}&cu=INR&tn=Vinaura Order`;
+      const url = `upi://pay?pa=${storeConfig.upiId}&pn=Vinaura&am=${total}&cu=INR&tn=Vinaura Prepaid Order`;
+      window.location.href = url;
     }
 
-    function filterCategory(cat, el) {
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      el.classList.add('active');
-      renderProducts(cat);
-    }
-
-    // Secret Admin URL Trigger: #admin
+    // Secret Admin Handler
     window.addEventListener('hashchange', checkAdminHash);
     function checkAdminHash() {
       if(window.location.hash === '#admin') {
-        const pin = prompt('Enter Admin Secret PIN:');
+        const pin = prompt('Vinaura Owner Master PIN:');
         if(pin === '1234') {
-          document.getElementById('admin-sec').style.display = 'block';
-          loadAdminStock();
+          openAdminPanel();
         } else {
-          alert('Incorrect PIN!');
+          alert('Unauthorized Access');
           window.location.hash = '';
         }
       }
     }
 
-    function loadAdminStock() {
-      const list = document.getElementById('admin-stock-list');
-      list.innerHTML = '';
+    function openAdminPanel() {
+      document.getElementById('adm-ticker').value = storeConfig.ticker;
+      document.getElementById('adm-upi').value = storeConfig.upiId;
+      document.getElementById('adm-footer').value = storeConfig.footerHeading;
+      document.getElementById('adm-ad1-title').value = storeConfig.ads[0]?.title || '';
+      document.getElementById('adm-ad1-img').value = storeConfig.ads[0]?.img || '';
+      document.getElementById('adm-ad2-title').value = storeConfig.ads[1]?.title || '';
+      document.getElementById('adm-ad2-img').value = storeConfig.ads[1]?.img || '';
+      loadAdminCatalog();
+      document.getElementById('admin-sec').style.display = 'block';
+    }
+
+    function closeAdmin() {
+      document.getElementById('admin-sec').style.display = 'none';
+      window.location.hash = '';
+    }
+
+    function saveStoreSettings() {
+      storeConfig.ticker = document.getElementById('adm-ticker').value;
+      storeConfig.upiId = document.getElementById('adm-upi').value;
+      storeConfig.footerHeading = document.getElementById('adm-footer').value;
+      localStorage.setItem('vinaura_cfg', JSON.stringify(storeConfig));
+      alert('Settings Saved!');
+      initUI();
+    }
+
+    function saveAds() {
+      storeConfig.ads[0].title = document.getElementById('adm-ad1-title').value;
+      storeConfig.ads[0].img = document.getElementById('adm-ad1-img').value;
+      storeConfig.ads[1].title = document.getElementById('adm-ad2-title').value;
+      storeConfig.ads[1].img = document.getElementById('adm-ad2-img').value;
+      localStorage.setItem('vinaura_cfg', JSON.stringify(storeConfig));
+      alert('Banners Updated!');
+      initUI();
+    }
+
+    function loadAdminCatalog() {
+      const wrap = document.getElementById('admin-stock-items');
+      wrap.innerHTML = '';
       products.forEach(p => {
-        list.innerHTML += `
-          <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid #eee;">
-            <span>${p.title}</span>
-            <button onclick="toggleStock(${p.id})">${p.inStock ? 'Mark Out of Stock' : 'Mark In Stock'}</button>
+        wrap.innerHTML += `
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid #eee;">
+            <div style="max-width:60%;">
+              <div style="font-size:13px; font-weight:600;">${p.title}</div>
+              <div style="font-size:12px; color:#666;">₹${p.price} | ${p.inStock ? 'In Stock' : 'Sold Out'}</div>
+            </div>
+            <div style="display:flex; gap:6px;">
+              <button onclick="toggleStock(${p.id})" style="padding:4px 8px; font-size:11px;">Toggle Stock</button>
+              <button onclick="deleteProduct(${p.id})" style="padding:4px 8px; font-size:11px; background:#c00; color:#fff; border:none; border-radius:4px;">Delete</button>
+            </div>
           </div>
         `;
       });
@@ -337,43 +509,64 @@
       const p = products.find(i => i.id === id);
       if(p) {
         p.inStock = !p.inStock;
-        localStorage.setItem('vinaura_products', JSON.stringify(products));
-        loadAdminStock();
-        renderProducts();
+        saveProducts();
+        loadAdminCatalog();
+        filterProducts();
       }
     }
 
-    function addNewProduct() {
-      const name = document.getElementById('new-name').value;
-      const price = parseInt(document.getElementById('new-price').value);
-      const cat = document.getElementById('new-cat').value;
-      const fileInput = document.getElementById('new-img-file');
-
-      if(!name || !price || !fileInput.files[0]) {
-        return alert('Please fill title, price and select at least 1 image');
+    function deleteProduct(id) {
+      if(confirm('Are you sure you want to remove this product?')) {
+        products = products.filter(p => p.id !== id);
+        saveProducts();
+        loadAdminCatalog();
+        filterProducts();
       }
-
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        products.unshift({
-          id: Date.now(),
-          title: name,
-          price: price,
-          category: cat,
-          inStock: true,
-          images: [e.target.result],
-          video: ""
-        });
-        localStorage.setItem('vinaura_products', JSON.stringify(products));
-        alert('Product Added Successfully!');
-        document.getElementById('admin-sec').style.display = 'none';
-        window.location.hash = '';
-        renderProducts();
-      };
-      reader.readAsDataURL(fileInput.files[0]);
     }
 
-    renderProducts();
+    function uploadProduct() {
+      const title = document.getElementById('p-title').value;
+      const price = parseInt(document.getElementById('p-price').value);
+      const cat = document.getElementById('p-category').value;
+      const files = document.getElementById('p-files').files;
+      const vFile = document.getElementById('p-video-file').files[0];
+
+      if(!title || !price || files.length === 0) return alert('Enter Title, Price, and Photos');
+
+      let images = [];
+      let count = 0;
+      for(let i=0; i<files.length; i++) {
+        const r = new FileReader();
+        r.onload = e => {
+          images.push(e.target.result);
+          count++;
+          if(count === files.length) {
+            if(vFile) {
+              const vr = new FileReader();
+              vr.onload = ev => saveNew(title, price, cat, images, ev.target.result);
+              vr.readAsDataURL(vFile);
+            } else {
+              saveNew(title, price, cat, images, "");
+            }
+          }
+        };
+        r.readAsDataURL(files[i]);
+      }
+    }
+
+    function saveNew(title, price, cat, images, video) {
+      products.unshift({ id: Date.now(), title, category: cat, price, inStock: true, images, video });
+      saveProducts();
+      alert('Product Published!');
+      closeAdmin();
+      filterProducts();
+    }
+
+    function saveProducts() {
+      localStorage.setItem('vinaura_items', JSON.stringify(products));
+    }
+
+    initUI();
     checkAdminHash();
   </script>
 </body>
