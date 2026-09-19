@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Vinaura | Handcrafted Luxury Couture</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-black: #080808;
+      --card-bg: #121212;
+      --gold-primary: #D4AF37;
+      --gold-light: #F3E5AB;
+      --gold-gradient: linear-gradient(135deg, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
+      --text-white: #FFFFFF;
+      --text-dim: #A0A0A0;
+      --border-gold: rgba(212, 175, 55, 0.25);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg-black);
+      color: var(--text-white);
+      font-family: 'Montserrat', sans-serif;
+      overflow-x: hidden;
+      padding-bottom: 90px;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(8, 8, 8, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border-gold);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+    }
+    .brand-logo {
+      font-family: 'Cinzel', serif;
+      font-size: 20px;
+      font-weight: 700;
+      background: var(--gold-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 3px;
+    }
+    .tagline {
+      font-size: 8px;
+      color: var(--gold-light);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+    .icon-btn {
+      background: none;
+      border: 1px solid var(--border-gold);
+      color: var(--gold-primary);
+      padding: 7px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 15px auto;
+      padding: 0 12px;
+    }
+    .product-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-gold);
+      border-radius: 12px;
+      margin-bottom: 30px;
+      overflow: hidden;
+    }
+
+    /* HORIZONTAL SCROLLER */
+    .media-scroller-wrap {
+      background: #000;
+      position: relative;
+    }
+    .media-scroller {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      gap: 8px;
+      padding: 10px;
+      scrollbar-width: none;
+    }
+    .media-scroller::-webkit-scrollbar { display: none; }
+    .media-item {
+      flex: 0 0 85%;
+      max-width: 380px;
+      height: 440px;
+      scroll-snap-align: center;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #181818;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(212, 175, 55, 0.15);
+    }
+    .media-item img, .media-item video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .product-content {
+      padding: 20px 16px;
+    }
+    .product-title {
+      font-family: 'Cinzel', serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--gold-light);
+      margin-bottom: 6px;
+    }
+    .product-price {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--gold-primary);
+      margin-bottom: 12px;
+    }
+    .product-desc {
+      font-size: 13px;
+      color: var(--text-dim);
+      line-height: 1.6;
+      margin-bottom: 16px;
+      white-space: pre-line;
+    }
+
+    .size-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--gold-light);
+      margin-bottom: 8px;
+      display: block;
+    }
+    .size-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .size-btn {
+      background: #1e1e1e;
+      border: 1px solid #333;
+      color: #fff;
+      padding: 7px 12px;
+      font-size: 12px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .size-btn.active {
+      background: var(--gold-primary);
+      color: #000;
+      font-weight: 600;
+      border-color: var(--gold-primary);
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 10px;
+    }
+    .btn-add-cart {
+      flex: 1;
+      padding: 13px;
+      background: transparent;
+      border: 1px solid var(--gold-primary);
+      color: var(--gold-primary);
+      font-family: 'Cinzel', serif;
+      font-size: 12px;
+      font-weight: 700;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .btn-order-wa {
+      flex: 1.3;
+      padding: 13px;
+      background: var(--gold-gradient);
+      border: none;
+      color: #000;
+      font-family: 'Cinzel', serif;
+      font-size: 12px;
+      font-weight: 700;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .cart-drawer-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 16px;
+      background: var(--gold-gradient);
+      color: #000;
+      padding: 12px 20px;
+      border-radius: 30px;
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 12px;
+      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+      cursor: pointer;
+      z-index: 99;
+      border: none;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 1000;
+      backdrop-filter: blur(5px);
+      justify-content: center;
+      align-items: center;
+      padding: 14px;
+    }
+    .modal-content {
+      background: var(--card-bg);
+      border: 1px solid var(--border-gold);
+      border-radius: 10px;
+      width: 100%;
+      max-width: 500px;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 20px;
+      position: relative;
+    }
+    .modal-close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: none;
+      border: none;
+      color: var(--gold-primary);
+      font-size: 20px;
+      cursor: pointer;
+    }
+    .form-group { margin-bottom: 12px; }
+    .form-group label { display: block; font-size: 11px; color: var(--gold-light); margin-bottom: 4px; }
+    .form-group input, .form-group textarea {
+      width: 100%;
+      padding: 8px 10px;
+      background: #181818;
+      border: 1px solid #333;
+      border-radius: 5px;
+      color: #fff;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div>
+      <div class="brand-logo">THE VINAURA</div>
+      <div class="tagline">Bespoke Handcrafted Couture</div>
+    </div>
+    <button class="icon-btn" onclick="openAdminModal()">⚙️ Admin Panel</button>
+  </header>
+
+  <main class="container" id="products-list"></main>
+
+  <button class="cart-drawer-toggle" onclick="openCartModal()">
+    🛒 Bag (<span id="cart-count">0</span>)
+  </button>
+
+  <!-- CART MODAL -->
+  <div class="modal" id="cart-modal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeCartModal()">✕</button>
+      <h3 style="font-family: 'Cinzel', serif; color: var(--gold-light); text-align: center; margin-bottom: 15px;">Your Shopping Bag</h3>
+      <div id="cart-items-container"></div>
+      <div style="margin-top: 16px; display: flex; justify-content: space-between;">
+        <span style="color: var(--text-dim); font-size: 13px;">Estimated Total:</span>
+        <span id="cart-total-price" style="color: var(--gold-primary); font-weight: 700;">₹0</span>
+      </div>
+      <button class="btn-order-wa" style="width: 100%; margin-top: 14px;" onclick="checkoutCartViaWhatsApp()">
+        Order Entire Bag via WhatsApp 💬
+      </button>
+    </div>
+  </div>
+
+  <!-- ADMIN MODAL -->
+  <div class="modal" id="admin-modal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeAdminModal()">✕</button>
+      <h3 style="font-family: 'Cinzel', serif; color: var(--gold-light); text-align: center; margin-bottom: 15px;">Admin Control Panel</h3>
+      
+      <!-- WHATSAPP NUMBER -->
+      <div style="background: #181818; padding: 12px; border-radius: 6px; border: 1px solid #333; margin-bottom: 16px;">
+        <div class="form-group">
+          <label>Target WhatsApp Number (Country Code + Phone)</label>
+          <input type="text" id="admin-whatsapp-input" placeholder="e.g. 918143714524">
+        </div>
+        <button class="btn-add-cart" style="width: 100%;" onclick="saveWhatsAppNumber()">Save WhatsApp Number</button>
+      </div>
+
+      <!-- PRODUCT FORM -->
+      <form id="admin-product-form" onsubmit="handleProductSave(event)">
+        <input type="hidden" id="edit-product-id" value="">
+        <div class="form-group">
+          <label>Title</label>
+          <input type="text" id="prod-title" required>
+        </div>
+        <div class="form-group">
+          <label>Price (₹)</label>
+          <input type="number" id="prod-price" required>
+        </div>
+        <div class="form-group">
+          <label>Image URLs (comma separated)</label>
+          <textarea id="prod-images" rows="2" required></textarea>
+        </div>
+        <div class="form-group">
+          <label>Video URL (Optional)</label>
+          <input type="text" id="prod-video">
+        </div>
+        <div class="form-group">
+          <label>Sizes (comma separated)</label>
+          <input type="text" id="prod-sizes" required>
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea id="prod-desc" rows="3"></textarea>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button type="submit" class="btn-order-wa" style="flex: 2;">Save Product</button>
+          <button type="button" class="btn-add-cart" style="flex: 1;" onclick="resetAdminForm()">Reset</button>
+        </div>
+      </form>
+
+      <hr style="border: 0; border-top: 1px solid #222; margin: 18px 0;">
+      <h4 style="font-family: 'Cinzel', serif; color: var(--gold-light); font-size: 13px; margin-bottom: 10px;">Current Inventory</h4>
+      <div id="admin-inventory-list"></div>
+    </div>
+  </div>
+
+  <script>
+    // CLEAN ROBUST INITIAL DATA
+    const INITIAL_DEFAULT_PRODUCTS = [
+      {
+        id: "vinaura-01",
+        title: "Signature Heritage Rani Pink Pattu Pavada Set",
+        price: 2699,
+        images: [
+          "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80",
+          "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=800&q=80"
+        ],
+        video: "",
+        sizes: ["0-6 Months", "6-12 Months", "1-2 Years", "2-4 Years", "4-6 Years"],
+        desc: "• Fabric: Pure Silk Jacquard with Traditional Zarī Weave\n• Comfort: 100% Breathable Pure Cotton Inner Lining\n• Details: Scalloped Gold Embroidery & Handmade Latkans\n• Perfect for Festivals & Special Occasions"
+      }
+    ];
+
+    let storeWhatsApp = "";
+    let products = [];
+    let cart = [];
+    let selectedSizes = {};
+
+    function initApp() {
+      try {
+        storeWhatsApp = localStorage.getItem('vinaura_whatsapp') || "918143714524";
+        const savedProds = localStorage.getItem('vinaura_products');
+        if (savedProds && savedProds !== "[]" && savedProds !== "null") {
+          products = JSON.parse(savedProds);
+        } else {
+          products = INITIAL_DEFAULT_PRODUCTS;
+          localStorage.setItem('vinaura_products', JSON.stringify(products));
+        }
+
+        const savedCart = localStorage.getItem('vinaura_cart');
+        if (savedCart) {
+          cart = JSON.parse(savedCart);
+        }
+      } catch (err) {
+        products = INITIAL_DEFAULT_PRODUCTS;
+      }
+
+      renderProducts();
+      updateCartUI();
+    }
+
+    function renderProducts() {
+      const container = document.getElementById('products-list');
+      container.innerHTML = '';
+
+      if (!products || products.length === 0) {
+        container.innerHTML = `<p style="text-align: center; padding: 40px; color: var(--gold-light);">No products added yet. Click Admin Panel to add a product.</p>`;
+        return;
+      }
+
+      products.forEach(p => {
+        if (!selectedSizes[p.id] && p.sizes && p.sizes.length > 0) {
+          selectedSizes[p.id] = p.sizes[0];
+        }
+
+        let mediaHtml = '';
+        (p.images || []).forEach(img => {
+          if (img && img.trim()) {
+            mediaHtml += `<div class="media-item"><img src="${img.trim()}" alt="${p.title}"></div>`;
+          }
+        });
+        if (p.video && p.video.trim()) {
+          mediaHtml += `<div class="media-item"><video src="${p.video.trim()}" controls playsinline muted></video></div>`;
+        }
+
+        let sizesHtml = (p.sizes || []).map(s => `
+          <button class="size-btn ${selectedSizes[p.id] === s.trim() ? 'active' : ''}" onclick="selectSize('${p.id}', '${s.trim()}')">${s.trim()}</button>
+        `).join('');
+
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.innerHTML = `
+          <div class="media-scroller-wrap">
+            <div class="media-scroller">${mediaHtml}</div>
+          </div>
+          <div class="product-content">
+            <h2 class="product-title">${p.title}</h2>
+            <div class="product-price">₹${Number(p.price).toLocaleString()}</div>
+            <div class="product-desc">${p.desc || ''}</div>
+            
+            <span class="size-label">Select Size</span>
+            <div class="size-options">${sizesHtml}</div>
+
+            <div class="card-actions">
+              <button class="btn-add-cart" onclick="addToCart('${p.id}')">Add To Bag</button>
+              <button class="btn-order-wa" onclick="orderDirectWhatsApp('${p.id}')">Order on WhatsApp 💬</button>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function selectSize(productId, size) {
+      selectedSizes[productId] = size;
+      renderProducts();
+    }
+
+    function orderDirectWhatsApp(productId) {
+      const prod = products.find(p => p.id === productId);
+      if (!prod) return;
+      const chosenSize = selectedSizes[productId] || "Standard";
+      const message = `Hello The Vinaura! 👑\n\nI want to order:\n*Product:* ${prod.title}\n*Price:* ₹${prod.price}\n*Size:* ${chosenSize}\n\nPlease share dispatch details.`;
+      window.open(`https://wa.me/${storeWhatsApp}?text=${encodeURIComponent(message)}`, '_blank');
+    }
+
+    function addToCart(productId) {
+      const prod = products.find(p => p.id === productId);
+      if (!prod) return;
+      const chosenSize = selectedSizes[productId] || prod.sizes[0] || "Custom";
+      cart.push({
+        cartItemId: Date.now().toString(),
+        title: prod.title,
+        price: prod.price,
+        size: chosenSize
+      });
+      localStorage.setItem('vinaura_cart', JSON.stringify(cart));
+      updateCartUI();
+      alert(`Added ${prod.title} (${chosenSize}) to your bag!`);
+    }
+
+    function updateCartUI() {
+      document.getElementById('cart-count').innerText = cart.length;
+    }
+
+    function openCartModal() {
+      const list = document.getElementById('cart-items-container');
+      const totalEl = document.getElementById('cart-total-price');
+      list.innerHTML = '';
+      if (cart.length === 0) {
+        list.innerHTML = `<p style="text-align: center; color: var(--text-dim); padding: 15px;">Bag is empty.</p>`;
+        totalEl.innerText = "₹0";
+      } else {
+        let total = 0;
+        cart.forEach(item => {
+          total += Number(item.price);
+          const div = document.createElement('div');
+          div.style.cssText = "display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #222;";
+          div.innerHTML = `
+            <div>
+              <div style="font-size: 13px;">${item.title}</div>
+              <div style="font-size: 11px; color: var(--gold-primary);">${item.size} - ₹${item.price}</div>
+            </div>
+            <button onclick="removeItem('${item.cartItemId}')" style="background: none; border: none; color: #ff5252; cursor: pointer;">✕</button>
+          `;
+          list.appendChild(div);
+        });
+        totalEl.innerText = `₹${total.toLocaleString()}`;
+      }
+      document.getElementById('cart-modal').style.display = 'flex';
+    }
+
+    function removeItem(cartItemId) {
+      cart = cart.filter(c => c.cartItemId !== cartItemId);
+      localStorage.setItem('vinaura_cart', JSON.stringify(cart));
+      updateCartUI();
+      openCartModal();
+    }
+
+    function closeCartModal() {
+      document.getElementById('cart-modal').style.display = 'none';
+    }
+
+    function checkoutCartViaWhatsApp() {
+      if (cart.length === 0) { alert("Bag is empty!"); return; }
+      let text = `Hello The Vinaura! 👑\nI want to order items in my bag:\n\n`;
+      let total = 0;
+      cart.forEach((c, i) => {
+        total += Number(c.price);
+        text += `${i+1}. *${c.title}* (${c.size}) - ₹${c.price}\n`;
+      });
+      text += `\n*Total:* ₹${total.toLocaleString()}`;
+      window.open(`https://wa.me/${storeWhatsApp}?text=${encodeURIComponent(text)}`, '_blank');
+    }
+
+    // ADMIN
+    function openAdminModal() {
+      document.getElementById('admin-whatsapp-input').value = storeWhatsApp;
+      renderAdminInventory();
+      document.getElementById('admin-modal').style.display = 'flex';
+    }
+    function closeAdminModal() {
+      document.getElementById('admin-modal').style.display = 'none';
+      resetAdminForm();
+    }
+    function resetAdminForm() {
+      document.getElementById('admin-product-form').reset();
+      document.getElementById('edit-product-id').value = "";
+    }
+    function saveWhatsAppNumber() {
+      const num = document.getElementById('admin-whatsapp-input').value.trim();
+      if (!num) { alert("Enter a valid number!"); return; }
+      storeWhatsApp = num;
+      localStorage.setItem('vinaura_whatsapp', num);
+      alert("WhatsApp number updated!");
+    }
+    function handleProductSave(e) {
+      e.preventDefault();
+      const editId = document.getElementById('edit-product-id').value;
+      const title = document.getElementById('prod-title').value.trim();
+      const price = Number(document.getElementById('prod-price').value);
+      const images = document.getElementById('prod-images').value.split(',').map(s => s.trim()).filter(Boolean);
+      const video = document.getElementById('prod-video').value.trim();
+      const sizes = document.getElementById('prod-sizes').value.split(',').map(s => s.trim()).filter(Boolean);
+      const desc = document.getElementById('prod-desc').value.trim();
+
+      if (editId) {
+        const idx = products.findIndex(p => p.id === editId);
+        if (idx !== -1) {
+          products[idx] = { ...products[idx], title, price, images, video, sizes, desc };
+        }
+      } else {
+        products.push({ id: "prod-" + Date.now(), title, price, images, video, sizes, desc });
+      }
+
+      localStorage.setItem('vinaura_products', JSON.stringify(products));
+      renderProducts();
+      renderAdminInventory();
+      resetAdminForm();
+      alert("Product saved successfully!");
+    }
+
+    function editProduct(id) {
+      const p = products.find(prod => prod.id === id);
+      if (!p) return;
+      document.getElementById('edit-product-id').value = p.id;
+      document.getElementById('prod-title').value = p.title;
+      document.getElementById('prod-price').value = p.price;
+      document.getElementById('prod-images').value = (p.images || []).join(', ');
+      document.getElementById('prod-video').value = p.video || '';
+      document.getElementById('prod-sizes').value = (p.sizes || []).join(', ');
+      document.getElementById('prod-desc').value = p.desc || '';
+    }
+
+    function deleteProduct(id) {
+      if (confirm("Delete this product?")) {
+        products = products.filter(p => p.id !== id);
+        localStorage.setItem('vinaura_products', JSON.stringify(products));
+        renderProducts();
+        renderAdminInventory();
+      }
+    }
+
+    function renderAdminInventory() {
+      const list = document.getElementById('admin-inventory-list');
+      list.innerHTML = '';
+      products.forEach(p => {
+        const div = document.createElement('div');
+        div.style.cssText = "display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #222;";
+        div.innerHTML = `
+          <div>
+            <div style="font-size: 12px;">${p.title}</div>
+            <div style="font-size: 11px; color: var(--gold-primary);">₹${p.price}</div>
+          </div>
+          <div>
+            <button onclick="editProduct('${p.id}')" style="background: none; border: 1px solid var(--gold-primary); color: var(--gold-primary); padding: 2px 6px; font-size: 11px; border-radius: 4px; cursor: pointer;">Edit</button>
+            <button onclick="deleteProduct('${p.id}')" style="background: none; border: 1px solid #ff4d4d; color: #ff4d4d; padding: 2px 6px; font-size: 11px; border-radius: 4px; cursor: pointer;">Del</button>
+          </div>
+        `;
+        list.appendChild(div);
+      });
+    }
+
+    // RUN SAFELY
+    window.addEventListener('DOMContentLoaded', initApp);
+  </script>
+</body>
+</html>
